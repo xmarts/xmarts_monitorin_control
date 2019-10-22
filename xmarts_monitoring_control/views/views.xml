@@ -24,19 +24,24 @@
       </field>
     </record> -->
 
-   <!--  <record id="xmarts_sales_process_res_partner" model="ir.ui.view">
+    <record id="xmarts_sales_process_res_partner" model="ir.ui.view">
       <field name="name">xmarts_sales_process_res_partner</field>
       <field name="model">res.partner</field>
       <field name="inherit_id" ref="base.view_partner_form"/>
       <field name="arch" type="xml">
         <xpath expr="//group[@name='purchase']" position="inside">
           <field name="is_carrier" attrs="{'invisible': [('supplier', '=', False)]}"/>
+          <field name="linea_trasporte_id" attrs="{'required': [('is_carrier', '=', True)],'invisible': [('is_carrier', '=', False)]}"/>
+          <field name="modalidad_id" attrs="{'required': [('is_carrier', '=', True)],'invisible': [('is_carrier', '=', False)]}"/>
+          <field name="economico_id" attrs="{'required': [('is_carrier', '=', True)],'invisible': [('is_carrier', '=', False)]}"/>
+          <field name="tipo_licencia" attrs="{'required': [('is_carrier', '=', True)],'invisible': [('is_carrier', '=', False)]}"/>
+          <field name="licencia" attrs="{'required': [('is_carrier', '=', True)],'invisible': [('is_carrier', '=', False)]}"/>
         </xpath>
-        <xpath expr="//field[@name='message_bounce']" position="after">
+       <!--  <xpath expr="//field[@name='message_bounce']" position="after">
           <field name="no_validate_sale" />
-        </xpath>
+        </xpath> -->
       </field>
-    </record> -->
+    </record>
 <!-- 
     <record id="belenes_add_fields_users_log" model="ir.ui.view">
         <field name="name">belenes_add_fields_users_log</field>
@@ -249,9 +254,20 @@
         </record>
 
 
+<record model="ir.ui.view" id="view_smonitoring_control_graph">
+    <field name="name">monitoring.control.graph</field>
+    <field name="model">monitoring.control</field>
+    <field name="arch" type="xml">
+        <graph string="Logistica" type="bar">
+            <field name="tipo_reg"/>
+        </graph>
+    </field>
+</record>
+
     <record    id="view_form_monitoring_control" model="ir.ui.view">
       <field name="name">Accesos Form</field>
       <field name="model">monitoring.control</field>
+      <field name="view_mode">tree,form,graph</field>
       <field name="arch" type="xml">
           <form>
               <header>
@@ -278,6 +294,7 @@
                     <field name="sale_id" attrs="{'invisible':[('tipo_reg','!=','salida')], 'required':[('tipo_reg','=','salida')]}"/>
                     <field name="provider_id" domain="[('supplier','=',True)]" attrs="{'invisible':[('tipo_reg','!=','entrada')], 'required':[('tipo_reg','=','entrada')]}" />
                     <field name="carrier_id" domain="[('is_carrier','=',True)]" attrs="{'invisible':[('tipo_reg','=','visitante')]}"/>
+                  
                   </group>
                   
                     
@@ -323,7 +340,11 @@
                             <field name="nombre_chofer" attrs="{'required':[('tipo_reg','=','entrada'),('tipo_reg','=','salida')]}"/>
                             <field name="tipo_licencia" attrs="{'required':[('tipo_reg','=','entrada'),('tipo_reg','=','salida')]}"/>
                             <field name="licencia" attrs="{'required':[('tipo_reg','=','entrada'),('tipo_reg','=','salida')]}"/>
+                             <field name="linea_trasporte_id"/>
+                            <field name="modalidad_id" />
+                            <field name="economico_id" />
                           </group>
+
                           <group>
                             <field name="origen"  />
                             <field name="destino"/>
@@ -332,50 +353,10 @@
                         </group>
                       </page>
 
-                      <page string="Productos" invisible="1">
-                        <field name="product_programed">
-                          <tree delete="false" create="false">
-                            <field name="product_id" />
-                            <field name="product_qty"/>
-                            <field name="product_uom" />
-                            <field name="date_planned" />
-                          </tree>
-                        </field>
-                      </page>
-
-                      <page string="Revisión" invisible="1">
-                        <group>
-                          <field name="clean_unit" />
-                          <field name="no_leaks" />
-                          <field name="damage_door_floor" />
-                        </group>
-                        <group>
-                          <field name="odor_free" />
-                          <field name="no_graffiti" />
-                          <field name="condiciones_trans" />
-                        </group>
-                      </page>
+                   
 
 
-                      <page string="Control Calidad" invisible="1">
-                        <group>
-                          <group>
-                            <field name="humidity" />
-                            <field name="texture" />
-                            <field name="density" />
-                            <field name="brix" />
-                            <field name="temperature" />
-                            <field name="carbonates" />
-                          </group>
-                          <group>
-                            <field name="a_u" />
-                            <field name="tannins" />
-                            <field name="rancidity" />
-                            <field name="agl" />
-                            <field name="plague" />
-                          </group>
-                        </group>
-                      </page>
+                   
                       <page string="Aprobaciones" >
                         <group>
                             <field name="aprobo" />
@@ -420,7 +401,7 @@
         id="action_monitoring_control"
         name="Logistica"
         res_model="monitoring.control"
-        view_mode="tree,form"
+        view_mode="tree,form,graph"
     />
     <menuitem id="monitoring_control_root" name="Logistica"/>
     <menuitem id="monitoring_control_menu0" name="Logistica" sequence="0" parent="monitoring_control_root" action="action_monitoring_control"/>

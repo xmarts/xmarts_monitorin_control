@@ -13,4 +13,14 @@ access_categoria_probrema,categoria.probrema,model_categoria_probrema,base.group
 access_probrema,probrema,model_probrema,base.group_user,1,0,0,0
 access_probrema,probrema,model_probrema,base.group_erp_manager,1,1,1,1
 
+access_linea_transporte,linea.transporte,model_linea_transporte,base.group_user,1,0,0,0
+access_linea_transporte,linea.transporte,model_linea_transporte,base.group_erp_manager,1,1,1,1
+
+access_modalidad,modalidad,model_modalidad,base.group_user,1,0,0,0
+access_modalidad,modalidad,model_modalidad,base.group_erp_manager,1,1,1,1
+
+
+access_economico,economico,model_economico,base.group_user,1,0,0,0
+access_economico,economico,model_economico,base.group_erp_manager,1,1,1,1
+
 
