@@ -400,7 +400,7 @@ class MonitoringControl(models.Model):
     )
 
 
-    categoria_id_p =fields.Many2one('probrema',string="Problema")
+    categoria_id_p =fields.Many2one('categoria.probrema',string="Problema")
     descripcion_pro = fields.Text(string="Descripcion del problema")
 
    
