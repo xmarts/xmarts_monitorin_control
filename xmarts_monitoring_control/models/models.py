@@ -325,6 +325,8 @@ class CategoriaProblemas(models.Model):
         
 class Problemas(models.Model):
     _name = "probrema"
+    
+    name = fields.Char(string="Name")
     categoria_id =fields.Many2one('categoria.probrema',string="Categoria")
     descripcion = fields.Char(string="Descripcion")
     monitoring_ids = fields.Many2one('monitoring.control')
@@ -396,6 +398,10 @@ class MonitoringControl(models.Model):
         'economico',
         string='Economico',
     )
+
+
+    categoria_id_p =fields.Many2one('probrema',string="Problema")
+    descripcion_pro = fields.Text(string="Descripcion del problema")
 
    
 
