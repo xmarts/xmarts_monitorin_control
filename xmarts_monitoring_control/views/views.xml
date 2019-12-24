@@ -295,8 +295,8 @@
                     <field name="provider_id" domain="[('supplier','=',True)]" attrs="{'invisible':[('tipo_reg','!=','entrada')], 'required':[('tipo_reg','=','entrada')]}" />
                     <field name="carrier_id" domain="[('is_carrier','=',True)]" attrs="{'invisible':[('tipo_reg','=','visitante')]}"/>
 
-                    <field name="categoria_id_p"/>
-                    <field name="descripcion_pro" attrs="{'invisible':[('categoria_id_p','=',False)]}"/>
+                    <!--<field name="categoria_id_p"/>
+                    <field name="descripcion_pro" attrs="{'invisible':[('categoria_id_p','=',False)]}"/>-->
                   
                   </group>
                   
@@ -370,14 +370,14 @@
                           
                           
                       </page>
-                      <!-- <page string="Incidencias" >
+                     <page string="Incidencias" >
                            <field name="problema_ids" >
                                  <tree editable="buttom">
                                   <field name="categoria_id"/>
                                   <field name="descripcion"/>
                                  </tree>
                             </field>
-                      </page>-->
+                      </page>
                   </notebook>
               </sheet>
               <div class="oe_chatter">

@@ -400,8 +400,8 @@ class MonitoringControl(models.Model):
     )
 
 
-    categoria_id_p =fields.Many2one('categoria.probrema',string="Problema")
-    descripcion_pro = fields.Text(string="Descripcion del problema")
+    #categoria_id_p =fields.Many2one('categoria.probrema',string="Problema")
+    #descripcion_pro = fields.Text(string="Descripcion del problema")
 
    
 
@@ -566,3 +566,6 @@ class AddRefProv(models.Model):
 
     ref_proveedor = fields.Char(string='Referencia proveedor')
     ref_cliente = fields.Char(string='Referencia cliente')
+
+
+
