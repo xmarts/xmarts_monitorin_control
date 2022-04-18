@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="xmarts_sales_process_res_partner" model="ir.ui.view">
+        <field name="name">xmarts_sales_process_res_partner</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='purchase']" position="inside">
+                <!-- <field name="is_carrier" attrs="{'invisible': [('supplier', '=', False)]}"/> -->
+                <field name="is_carrier"/>
+                <field name="linea_trasporte_id" attrs="{'required': [('is_carrier', '=', True)],'invisible': [('is_carrier', '=', False)]}"/>
+                <field name="modalidad_id" attrs="{'required': [('is_carrier', '=', True)],'invisible': [('is_carrier', '=', False)]}"/>
+                <field name="economico_id" attrs="{'required': [('is_carrier', '=', True)],'invisible': [('is_carrier', '=', False)]}"/>
+                <field name="tipo_licencia" attrs="{'required': [('is_carrier', '=', True)],'invisible': [('is_carrier', '=', False)]}"/>
+                <field name="licencia" attrs="{'required': [('is_carrier', '=', True)],'invisible': [('is_carrier', '=', False)]}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

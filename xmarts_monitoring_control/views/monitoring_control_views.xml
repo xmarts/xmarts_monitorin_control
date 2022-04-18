@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="monitoring_control_search" model="ir.ui.view">
+        <field name="name">monitoring.control.search</field>
+        <field name="model">monitoring.control</field>
+        <field name="arch" type="xml">
+            <search string="Search Purchase Order">
+                <field name="name" string="Nombre" />
+                <field name="purchase_id" string="Compra"/>
+                <field name="sale_id" string="Venta"/>
+                <field name="tipo_reg" string="Tipo"/>
+                <field name="state" string="Estado"/>
+                <field name="state" string="Estado" select="True"/>
+                <filter string="Salida" name="salida" domain="[('tipo_reg','=','salida')]" />
+                <filter string="Entrada" name="entrada" domain="[('tipo_reg','=','entrada')]" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_smonitoring_control_graph">
+        <field name="name">monitoring.control.graph</field>
+        <field name="model">monitoring.control</field>
+        <field name="arch" type="xml">
+            <graph string="Logistica" type="bar">
+                <field name="tipo_reg"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_form_monitoring_control" model="ir.ui.view">
+        <field name="name">Accesos Form</field>
+        <field name="model">monitoring.control</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button string='Aceptar' name="action_acept_control" type="object" class="oe_highlight" attrs="{'invisible':[('state','!=','ingreso')]}" />
+                    <button string='Rechazar' name="action_refuse_control" type="object" class="oe_highlight" attrs="{'invisible':[('state','!=','ingreso')]}" />
+                    <button string='Cabiar a Ingreso' name="action_draft_control" type="object" class="oe_highlight" attrs="{'invisible':[('state','=','ingreso')]}" />
+                    <button string='Listo para Salir' name="action_salida_control" type="object" class="oe_highlight" attrs="{'invisible':['|','|', ('state','=','ingreso'), ('state','=','salir'), ('state','=','egreso'), ('state','=','rechazado')]}" />
+                    <button string='Egreso' name="action_egreso_control" type="object" class="oe_highlight" attrs="{'invisible':['|','|', ('state','=','ingreso'), ('state','=','egreso'), ('state','=','aprobado'), ('state','=','rechazado')]}" />>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet string="Logistica">
+                    <field name="image" widget="image" class="oe_avatar" />
+                    <div class="oe_button_box" name="button_box"></div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="tipo_reg" />
+                            <field name="purchase_id" attrs="{'invisible':[('tipo_reg','!=','entrada')], 'required':[('tipo_reg','=','entrada')]}" />
+                            <field name="sale_id" attrs="{'invisible':[('tipo_reg','!=','salida')], 'required':[('tipo_reg','=','salida')]}"/>
+                            <!-- <field name="provider_id" domain="[('supplier','=',True)]" attrs="{'invisible':[('tipo_reg','!=','entrada')], 'required':[('tipo_reg','=','entrada')]}" /> -->
+                            <field name="carrier_id" domain="[('is_carrier','=',True)]" attrs="{'invisible':[('tipo_reg','=','visitante')]}"/>
+                        </group>
+                        <group>
+                            <field name="hora_llegada"/>
+                            <field name="hora_ingreso" invisible="1"/>
+                            <field name="hora_salida" />
+                            <field name="motivo_rechazo" attrs="{'invisible':[('state','!=','rechazado')]}" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="visitante" string="Datos del Visitante" attrs="{'invisible':['|', ('tipo_reg','=','salida'), ('tipo_reg','=','entrada')]}">
+                            <group name="datos_visitante">
+                                <group>
+                                    <field name="nombre"/>
+                                    <field name="identificacion" />
+                                    <field name="num_identificacion" />
+                                </group>
+                                <group>
+                                    <field name="procedencia" />
+                                    <field name="visita" />
+                                </group>
+                            </group>
+                        </page>
+                        <page name="transporte" string="Datos del transporte" attrs="{'invisible':[('tipo_reg','=','visitante')]}">
+                            <group name="datos_transporte">
+                                <group>
+                                    <field name="tipo_trans" />
+                                    <field name="placas_tractor" />
+                                </group>
+                                <group>
+                                    <field name="placas_caja" />
+                                    <field name="placas_caja_dos" />
+                                </group>
+                            </group>
+                        </page>
+                        <page name="chofer" string="Datos del chofer" attrs="{'invisible':[('tipo_reg','=','visitante')]}">
+                            <group name="datos_chofer">
+                                <group>
+                                    <field name="nombre_chofer" attrs="{'required':[('tipo_reg','=','entrada'),('tipo_reg','=','salida')]}"/>
+                                    <field name="tipo_licencia" attrs="{'required':[('tipo_reg','=','entrada'),('tipo_reg','=','salida')]}"/>
+                                    <field name="licencia" attrs="{'required':[('tipo_reg','=','entrada'),('tipo_reg','=','salida')]}"/>
+                                    <field name="linea_trasporte_id"/>
+                                    <field name="modalidad_id" />
+                                    <field name="economico_id" />
+                                </group>
+                                <group>
+                                    <field name="origen"  />
+                                    <field name="destino"/>
+                                    <field name="cedis" />
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Aprobaciones" >
+                            <group>
+                                <field name="aprobo" />
+                                <field name="fecha_aprobacion"/>
+                            </group>
+                        </page>
+                      <page string="Incidencias" >
+                          <field name="problema_ids" >
+                              <tree editable="buttom">
+                                  <field name="categoria_id"/>
+                                  <field name="descripcion"/>
+                              </tree>
+                          </field>
+                      </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter"></div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tree_monitoring_control" model="ir.ui.view">
+        <field name="name">Accesos tree</field>
+        <field name="model">monitoring.control</field>
+        <field name="arch" type="xml">
+            <tree >
+                <field name="name" />
+                <field name="tipo_reg" />
+                <field name="purchase_id" />
+                <field name="sale_id" />
+                <field name="hora_llegada" />
+                <field name="hora_ingreso" />
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_monitoring_control" model="ir.actions.act_window">
+        <field name="name">Logistica</field>
+        <field name="res_model">monitoring.control</field>
+        <field name="view_mode">tree,form,graph</field>
+    </record>
+
+    <menuitem id="monitoring_control_root" name="Logistica"/>
+    <menuitem id="monitoring_control_menu0" name="Logistica" sequence="0" parent="monitoring_control_root" action="action_monitoring_control"/>
+</odoo>
